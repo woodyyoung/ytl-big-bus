@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lty.big.websocket.mapper.StationMapper">
+    
+     <!-- 查询站点经纬度 -->
+    <select id="queryAllStaion"  resultType="java.util.Map">	
+		SELECT
+			a.Name AS stationName,
+			a.Latitude AS latitude,
+			a.Longitude AS longitude,
+			FLOOR(RAND() * 1000)  as psg
+		FROM
+			T_L_Station a
+		WHERE
+			id = (
+				SELECT
+					max(id)
+				FROM
+					T_L_Station
+				WHERE
+					Name = a.Name
+			)
+		AND a.IsDisable = 0
+		ORDER BY
+			a.Name
+    </select>
+    
+    
+    <select id="queryGpsData" resultType="java.util.Map">
+		   select top 300 
+				t.GprsId as line_id,
+				t.GprsId  as line_name,
+				t.OnboardId as bus_no,
+				t.OccurTime as  formatTime,
+		    t.Angle as runAngle,
+		    t.GprsSignal  as speed,
+			  t.Latitude  as latitude,
+		    t.Longitude as  longitude
+		  from T_R_GpsCoord t 
+		where  t.OccurTime &lt; getdate()
+		order by t.OccurTime desc
+
+
+    </select> 
+    
+    <!-- 查询站点统计信息 -->
+    <!-- <select id="queryStationStatistics" resultType="java.util.Map" parameterType="java.util.Map">
+		  SELECT
+			t.station_num,
+			t.ge1le5,
+			t.gt5le10,
+			t.gt10
+		FROM
+			t_station_statistics t
+		WHERE
+			t.citycode = #{cityCode,jdbcType=VARCHAR}
+		AND t.calculatedDate = (
+			SELECT
+				max(calculatedDate)
+			FROM
+				t_line_statistics
+		)
+    </select> -->
+
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lty.big.websocket.mapper.BusMapper">
+
+    <!-- 查询车辆统计信息 -->
+    <!-- <select id="queryBusStatistics" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			t.total_bus_num,
+			t.deptName,
+			t.bus_num
+		FROM
+			t_bus_statistics t
+		WHERE
+			t.citycode = #{cityCode,jdbcType=VARCHAR}
+		AND t.calculatedDate = (
+			SELECT
+				max(calculatedDate)
+			FROM
+				t_line_statistics
+		)
+    </select> -->
+
+</mapper>

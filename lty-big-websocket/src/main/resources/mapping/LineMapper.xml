@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lty.big.websocket.mapper.LineMapper">
+    
+    <!-- 查询所有线路轨迹信息 -->
+   <!--  <select id="queryLinePath"  resultType="java.util.Map">
+		SELECT
+			l.lineName AS line_name,
+			l.GprsID AS line_id,
+			GROUP_CONCAT(
+				p.Longitude,
+				"|",
+				p.Latitude
+			ORDER BY
+				p.id
+			) line_path
+		FROM
+			op_line l
+		JOIN op_line_point p ON l.id = p.lineId
+		AND p.direction = 0
+		and p.Longitude >50
+		and p.Latitude>15
+		and l.GprsID = 681
+		
+		GROUP BY
+			l.lineName,
+			l.GprsID
+
+    </select> -->
+    
+    
+     <!-- 查询所有线路轨迹信息 -->
+    <!-- <select id="queryLinePath"  resultType="java.util.Map" parameterType="java.util.Map">
+					SELECT
+			t.line_name,
+			t.line_id,
+			GROUP_CONCAT(
+				t.longitude,
+				"|",
+				t.latitude
+			ORDER BY
+				t.order_id ASC
+			) line_path
+		FROM
+			t_line_path t
+		WHERE
+			t.citycode = #{cityCode,jdbcType=VARCHAR}
+		AND t.calculatedDate = (
+			SELECT
+				max(calculatedDate)
+			FROM
+				t_line_path
+		)
+		GROUP BY
+			t.line_name,
+			t.line_id
+    </select> -->
+    
+  <!--   <select id="queryLinePath2"  resultType="java.util.Map" parameterType="java.util.Map">	
+			
+			SELECT
+			line_name,
+			line_path = (
+				stuff(
+					(
+						SELECT
+							',' + LatLong
+						FROM
+							v_test_line
+						WHERE
+							line_name = a.line_name FOR xml path ('')
+					),
+					1,
+					1,
+					''
+				)
+			)
+		FROM
+			v_test_line a
+		GROUP BY
+			line_name
+					
+    </select> -->
+    
+    
+     <select id="queryLinePath"  resultType="java.util.Map" parameterType="java.util.Map">	
+			
+			select t.Name as line_name,t.LPath as line_path from T_L_Line t where t.LPath is not null
+					
+    </select>
+    
+      
+    <!-- 查询线路统计信息 -->
+    <!-- <select id="queryLineStatisticsInfo"  resultType="java.util.Map" parameterType="java.util.Map">
+			SELECT
+				t.line_num,
+				t.total_km,
+				t.gt40,
+				t.gt30le40,
+				t.gt10le30,
+				t.le10
+			FROM
+				t_line_statistics t
+			WHERE
+				t.citycode = #{cityCode,jdbcType=VARCHAR}
+			AND t.calculatedDate = (
+				SELECT
+					max(calculatedDate)
+				FROM
+					t_line_statistics
+			)
+    </select> -->
+    
+
+</mapper>
